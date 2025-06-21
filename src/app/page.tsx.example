@@ -1,0 +1,202 @@
+// app/page.tsx
+// Temporary test page to verify your foundation is working correctly
+
+import { CheckCircle, Globe, Zap, MessageCircle } from 'lucide-react';
+
+export default function HomePage() {
+  return (
+    <div className="min-h-screen">
+      {/* Header Section */}
+      <header className="container-xl py-12 text-center">
+        <div className="animate-fade-in">
+          <h1 className="text-4xl md:text-6xl font-bold text-gradient mb-4">
+            SnapFAQ Hub
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+            Transform any webpage into an instant FAQ and searchable knowledge base. 
+            Your personal web knowledge vault powered by AI.
+          </p>
+          
+          {/* Status indicators to verify setup */}
+          <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="flex items-center gap-2 text-green-600">
+              <CheckCircle className="w-5 h-5" />
+              <span className="text-sm font-medium">Next.js Ready</span>
+            </div>
+            <div className="flex items-center gap-2 text-green-600">
+              <CheckCircle className="w-5 h-5" />
+              <span className="text-sm font-medium">TypeScript Configured</span>
+            </div>
+            <div className="flex items-center gap-2 text-green-600">
+              <CheckCircle className="w-5 h-5" />
+              <span className="text-sm font-medium">Tailwind Active</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Features Preview Section */}
+      <section className="container-xl py-16">
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* Feature 1: Intelligent Snapping */}
+          <div className="page-item animate-slide-up">
+            <div className="page-item-header">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Globe className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">Smart Web Crawling</h3>
+                  <p className="text-sm text-muted-foreground">Powered by Tavily API</p>
+                </div>
+              </div>
+            </div>
+            <div className="page-item-content">
+              <p className="text-sm text-muted-foreground mb-4">
+                Simply paste any URL and watch as our intelligent crawler extracts 
+                the most important content, generating relevant question-answer pairs automatically.
+              </p>
+              <div className="badge badge-outline">Coming Soon</div>
+            </div>
+          </div>
+
+          {/* Feature 2: AI-Powered FAQ Generation */}
+          <div className="page-item animate-slide-up" style={{ animationDelay: '0.1s' }}>
+            <div className="page-item-header">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">AI FAQ Extraction</h3>
+                  <p className="text-sm text-muted-foreground">Powered by OpenAI</p>
+                </div>
+              </div>
+            </div>
+            <div className="page-item-content">
+              <p className="text-sm text-muted-foreground mb-4">
+                Our AI analyzes webpage content and automatically generates comprehensive 
+                FAQ pairs, making complex information easily digestible and searchable.
+              </p>
+              <div className="badge badge-outline">Coming Soon</div>
+            </div>
+          </div>
+
+          {/* Feature 3: Conversational Interface */}
+          <div className="page-item animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <div className="page-item-header">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <MessageCircle className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">Intelligent Chat</h3>
+                  <p className="text-sm text-muted-foreground">Powered by CopilotKit</p>
+                </div>
+              </div>
+            </div>
+            <div className="page-item-content">
+              <p className="text-sm text-muted-foreground mb-4">
+                Chat naturally with your saved content. Ask questions, get summaries, 
+                and discover connections across all your snapped pages.
+              </p>
+              <div className="badge badge-outline">Coming Soon</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Setup Test Section */}
+      <section className="container-xl py-16 border-t">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-8">Setup Verification</h2>
+          
+          <div className="card">
+            <div className="card-header">
+              <h3 className="card-title">Environment Status</h3>
+              <p className="card-description">
+                Checking if all required services are configured correctly
+              </p>
+            </div>
+            <div className="card-content">
+              <div className="space-y-4">
+                <EnvironmentCheck 
+                  service="Appwrite" 
+                  status={checkEnvironmentVariable('NEXT_PUBLIC_APPWRITE_PROJECT_ID')}
+                  description="Backend database and authentication"
+                />
+                <EnvironmentCheck 
+                  service="OpenAI" 
+                  status={checkEnvironmentVariable('OPENAI_API_KEY')}
+                  description="AI-powered FAQ extraction and chat"
+                />
+                <EnvironmentCheck 
+                  service="Tavily" 
+                  status={checkEnvironmentVariable('TAVILY_API_KEY')}
+                  description="Intelligent web crawling service"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Next Steps Section */}
+      <section className="container-xl py-16">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl font-bold mb-4">Ready for Phase 2?</h2>
+          <p className="text-muted-foreground mb-8">
+            Your foundation is solid! Next, we'll set up Appwrite for user authentication 
+            and database management, then build the core snapping functionality.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="btn btn-primary">
+              Configure Appwrite
+            </button>
+            <button className="btn btn-outline">
+              View Documentation
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// Helper component to check environment variables
+function EnvironmentCheck({ 
+  service, 
+  status, 
+  description 
+}: { 
+  service: string; 
+  status: boolean; 
+  description: string;
+}) {
+  return (
+    <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/20">
+      <div className="flex items-center gap-3">
+        <div className={`w-3 h-3 rounded-full ${status ? 'bg-green-500' : 'bg-yellow-500'}`} />
+        <div>
+          <div className="font-medium">{service}</div>
+          <div className="text-sm text-muted-foreground">{description}</div>
+        </div>
+      </div>
+      <div className="text-sm font-medium">
+        {status ? (
+          <span className="text-green-600">Configured</span>
+        ) : (
+          <span className="text-yellow-600">Pending</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Helper function to check if environment variables are set
+function checkEnvironmentVariable(varName: string): boolean {
+  // In a real app, you'd check this server-side
+  // For now, we'll just return false to show pending status
+  return false;
+}

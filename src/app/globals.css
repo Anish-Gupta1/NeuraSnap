@@ -3,6 +3,25 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card: 0 0% 100%;                /* Card background color */
+  --card-foreground: 222.2 84% 4.9%; /* Text color on cards */
+  --popover: 0 0% 100%;             /* Popover background */
+  --popover-foreground: 222.2 84% 4.9%; /* Popover text color */
+  --primary: 221.2 83.2% 53.3%;     /* Primary brand color (blue) */
+  --primary-foreground: 210 40% 98%; /* Text on primary background */
+  --secondary: 210 40% 96%;          /* Secondary color (light gray) */
+  --secondary-foreground: 222.2 84% 4.9%; /* Text on secondary background */
+  --muted: 210 40% 96%;             /* Muted background color */
+  --muted-foreground: 215.4 16.3% 46.9%; /* Muted text color */
+  --accent: 210 40% 96%;            /* Accent color for highlights */
+  --accent-foreground: 222.2 84% 4.9%; /* Text on accent background */
+  --destructive: 0 84.2% 60.2%;     /* Error/danger color (red) */
+  --destructive-foreground: 210 40% 98%; /* Text on destructive background */
+  --border: 214.3 31.8% 91.4%;      /* Border color for inputs and cards */
+  --input: 214.3 31.8% 91.4%;       /* Input field background */
+  --ring: 221.2 83.2% 53.3%;        /* Focus ring color */
+  --radius: 0.5rem;          
+  
 }
 
 @theme inline {
@@ -10,12 +29,30 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 94.1%;
   }
 }
 
@@ -24,3 +61,4 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
