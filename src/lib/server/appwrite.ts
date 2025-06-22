@@ -1,4 +1,4 @@
-// src/lib/server/appwrite.js
+// lib/server/appwrite.ts
 "use server";
 import { Client, Account } from "node-appwrite";
 import { cookies } from "next/headers";
@@ -8,7 +8,7 @@ export async function createSessionClient() {
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
     .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!);
 
-  const session = await (await cookies()).get("my-custom-session");
+  const session = (await cookies()).get("my-custom-session");
   if (!session || !session.value) {
     throw new Error("No session");
   }
@@ -38,7 +38,17 @@ export async function createAdminClient() {
 export async function getLoggedInUser() {
   try {
     const { account } = await createSessionClient();
-    return await account.get();
+    const user = await account.get();
+    
+    // Return a plain object instead of the Appwrite user object
+    return {
+      $id: user.$id,
+      name: user.name,
+      email: user.email,
+      $createdAt: user.$createdAt,
+      $updatedAt: user.$updatedAt,
+      // Add any other properties you need, but keep them as plain values
+    };
   } catch (error) {
     console.error("Error getting logged in user:", error);
     return null;
