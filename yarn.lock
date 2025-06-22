@@ -4037,6 +4037,18 @@ next@15.3.4:
     "@next/swc-win32-x64-msvc" "15.3.4"
     sharp "^0.34.1"
 
+node-appwrite@17.0.0:
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/node-appwrite/-/node-appwrite-17.0.0.tgz#ea1dd4216ca8bcb3d8ea6c97ca4cf216505f1242"
+  integrity sha512-5Moi5ENPnoAfU1/6CZP9K2NTuB6Nm3dSyhokno+24RDuP7czjXCdwzfeyjmyHieggbrLkN89AYSOv9W1XkCL9w==
+  dependencies:
+    node-fetch-native-with-agent "1.7.2"
+
+node-fetch-native-with-agent@1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/node-fetch-native-with-agent/-/node-fetch-native-with-agent-1.7.2.tgz#13b74160f2c1a856c656534bfe7984da5eb5172f"
+  integrity sha512-5MaOOCuJEvcckoz7/tjdx1M6OusOY6Xc5f459IaruGStWnKzlI1qpNgaAwmn4LmFYcsSlj+jBMk84wmmRxfk5g==
+
 node-fetch@^2.6.7:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
@@ -4119,6 +4131,11 @@ object.values@^1.1.6, object.values@^1.2.1:
     call-bound "^1.0.3"
     define-properties "^1.2.1"
     es-object-atoms "^1.0.0"
+
+openai@^5.6.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/openai/-/openai-5.6.0.tgz#2fefc93d2862da8ea1a3c311fca2d07fe48adf5f"
+  integrity sha512-jNH5z+hYAdOMZXyEt0yZ7246s+UZjg2AwFQqkAhZIPPjxNtHHO5mykOefau6FkOqj16aC94MOdJl/rZBcKj/cQ==
 
 optionator@^0.9.3:
   version "0.9.4"

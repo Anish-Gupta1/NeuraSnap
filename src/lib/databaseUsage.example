@@ -1,0 +1,23 @@
+##Usage Examples
+    Server Actions
+    typescriptimport { DatabaseService } from '@/lib/server/database-service';
+
+    // Create page
+    const page = await DatabaseService.createPage("My Page", "https://example.com");
+
+    // Get all pages
+    const pages = await DatabaseService.getUserPages();
+
+    // Create FAQ
+    const faq = await DatabaseService.createFAQ(pageId, "Question?", "Answer!");
+
+
+##Client Components
+    typescriptimport { usePages, useFAQs } from '@/lib/client/database-hooks';
+
+    function MyComponent() {
+    const { pages, loading, createPage } = usePages();
+    const { faqs, createFAQ } = useFAQs(pageId);
+    
+    // Use the data
+    }

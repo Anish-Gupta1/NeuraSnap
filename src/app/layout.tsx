@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import Header from '@/components/Headers';
 
 // Import the Inter font for clean, readable typography
 // Inter is specifically designed for user interfaces and remains highly legible at all sizes
@@ -72,7 +73,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
         
         {/* Main content area */}
         <div className="relative flex h-full flex-col">
-          {children}
+            <Header />
+            <main>
+              {children}  
+            </main>
+
         </div>
         
         {/* 

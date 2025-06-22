@@ -1,14 +1,7 @@
-
+//app/types/index.ts
 // Core data structures for NeuraSnap
 
 // Represents a user in the system
-export interface User {
-    $id: string;           // Appwrite user ID
-    email: string;         // User's email address
-    name?: string;         // Optional display name
-    createdAt: string;     // When the user account was created
-  }
-  
   // Represents a webpage that has been "snapped" by a user
   export interface SnapPage {
     $id: string;           // Unique identifier for this page
