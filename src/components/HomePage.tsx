@@ -2,6 +2,7 @@
 
 import { CheckCircle, Globe, Brain, MessageCircle, Database, Zap, ArrowRight, Star, Sparkles } from "lucide-react"
 import { useState, useEffect } from "react"
+import Link from "next/link"
 
 export default function HomePage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -85,14 +86,16 @@ export default function HomePage() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-          <button className="group relative bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-2xl font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
-            <span className="relative flex items-center gap-3">
-              Get Started Free
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-            </span>
-          </button>
+          <Link href="/dashboard">
+            <button className="group relative bg-gradient-to-r from-blue-600 to-purple-600 text-white px-10 py-5 rounded-2xl font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
+              <span className="relative flex items-center gap-3">
+                Get Started Free
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </span>
+            </button>
+          </Link>
           <button className="group relative border-2 border-white/20 text-white px-10 py-5 rounded-2xl font-semibold backdrop-blur-sm hover:border-white/40 hover:bg-white/5 transition-all duration-300 hover:scale-105">
             <span className="relative">Watch Demo</span>
           </button>
@@ -303,13 +306,15 @@ export default function HomePage() {
               Join thousands of users who are already turning web content into actionable intelligence with NeuraSnap.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button className="group relative bg-gradient-to-r from-white to-gray-100 text-black px-10 py-5 rounded-2xl font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/25">
-                <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
-                <span className="relative flex items-center gap-3 justify-center">
-                  Start Snapping Now
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
-              </button>
+              <Link href="/snap">
+                <button className="group relative bg-gradient-to-r from-white to-gray-100 text-black px-10 py-5 rounded-2xl font-bold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/25">
+                  <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
+                  <span className="relative flex items-center gap-3 justify-center">
+                    Start Snapping Now
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
+                </button>
+              </Link>
               <button className="group relative border-2 border-white/30 text-white px-10 py-5 rounded-2xl font-bold backdrop-blur-sm hover:border-white/50 hover:bg-white/10 transition-all duration-300 hover:scale-105">
                 <span className="relative">View Live Demo</span>
               </button>

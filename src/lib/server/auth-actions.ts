@@ -23,7 +23,7 @@ export async function signUpWithEmail(formData: FormData) {
     secure: true,
   });
 
-  redirect('/account');
+  redirect('/dashboard');
 }
 
 export async function signInWithEmail(formData: FormData) {
@@ -40,5 +40,5 @@ export async function signInWithEmail(formData: FormData) {
     secure: true,
   });
 
-  redirect('/account');
+  redirect('/dashboard');
 }
