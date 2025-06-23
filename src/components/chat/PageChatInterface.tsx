@@ -16,9 +16,10 @@ type Page = {
   extractedAt?: string;
 };
 
+type PageChatInterfaceChildren = React.ReactNode | ((props: { extractionStatus: string }) => React.ReactNode);
 interface PageChatInterfaceProps {
   page: Page;
-  children: React.ReactNode;
+  children: PageChatInterfaceChildren;
 }
 
 const PageChatInterface = ({ page, children }: PageChatInterfaceProps) => {

@@ -24,13 +24,69 @@ import {
   checkUrlExists,
 } from "../../lib/server/snap-actions"
 
+// Types
+interface ValidationState {
+  isValid: boolean;
+  message: string;
+  suggestions: string[];
+}
+
+interface UrlCheckData {
+  pageId?: string;
+  title?: string;
+  lastSnapped?: string;
+}
+
+interface UrlCheckState {
+  exists: boolean;
+  data: UrlCheckData | null;
+}
+
+interface SnapResult {
+  success: boolean;
+  data: {
+    title: string;
+    description: string;
+    url: string;
+    domain: string;
+    contentLength: number;
+    pageId: string;
+  };
+}
+
+interface BulkSnapResult {
+  success: boolean;
+  data: {
+    summary: {
+      total: number;
+      successful: number;
+      failed: number;
+    };
+    successful: Array<{
+      title: string;
+      url: string;
+    }>;
+    failed: Array<{
+      url: string;
+      error: string;
+    }>;
+  };
+}
+
+interface Stats {
+  totalPages: number;
+  totalContent: number;
+  avgContentLength: number;
+  topDomains: Array<{ domain: string; count: number }>;
+}
+
 const EnhancedUrlSnapper = () => {
-  const [url, setUrl] = useState("")
-  const [result, setResult] = useState(null)
-  const [error, setError] = useState("")
-  const [stats, setStats] = useState(null)
-  const [validationState, setValidationState] = useState({ isValid: true, message: "", suggestions: [] })
-  const [urlCheckState, setUrlCheckState] = useState({ exists: false, data: null })
+  const [url, setUrl] = useState<string>("")
+  const [result, setResult] = useState<SnapResult | BulkSnapResult | null>(null)
+  const [error, setError] = useState<string>("")
+  const [stats, setStats] = useState<Stats | null>(null)
+  const [validationState, setValidationState] = useState<ValidationState>({ isValid: true, message: "", suggestions: [] })
+  const [urlCheckState, setUrlCheckState] = useState<UrlCheckState>({ exists: false, data: null })
   const [isPending, startTransition] = useTransition()
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
@@ -58,13 +114,13 @@ const EnhancedUrlSnapper = () => {
         setValidationState({
           isValid: validation.isValid,
           message: validation.error || "",
-          suggestions: validation.suggestions || [],
+          suggestions: Array.isArray(validation.suggestions) ? validation.suggestions : [],
         })
 
         // Check if URL already exists (only for single URLs)
         if (validation.isValid && !url.includes("\n")) {
           const existsCheck = await checkUrlExists(firstUrl)
-          setUrlCheckState({ exists: existsCheck.exists, data: existsCheck })
+          setUrlCheckState({ exists: existsCheck.exists, data: existsCheck as UrlCheckData })
         } else {
           setUrlCheckState({ exists: false, data: null })
         }
@@ -82,21 +138,25 @@ const EnhancedUrlSnapper = () => {
       try {
         const urlsToProcess = url
           .split("\n")
-          .filter((u) => u.trim())
-          .map((u) => u.trim())
+          .filter((u: string) => u.trim())
+          .map((u: string) => u.trim())
 
         if (urlsToProcess.length === 1) {
           const response = await snapSingleUrl(urlsToProcess[0])
-          setResult(response)
+          setResult(response as SnapResult)
         } else {
           const response = await snapMultipleUrls(urlsToProcess)
-          setResult(response)
+          setResult(response as BulkSnapResult)
         }
 
         setUrl("") // Clear input on success
         await loadStats() // Refresh stats
       } catch (err) {
-        setError(err.message || "Failed to snap URL(s)")
+        if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError("Failed to snap URL(s)")
+        }
       }
     })
   }
@@ -105,14 +165,14 @@ const EnhancedUrlSnapper = () => {
     try {
       const statsResponse = await getSnapStats()
       if (statsResponse.success) {
-        setStats(statsResponse.data)
+        setStats(statsResponse.data as Stats)
       }
     } catch (error) {
       console.error("Failed to load stats:", error)
     }
   }
 
-  const copyToClipboard = async (text) => {
+  const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text)
       // You could add a toast notification here
@@ -121,11 +181,11 @@ const EnhancedUrlSnapper = () => {
     }
   }
 
-  const applySuggestion = (suggestion) => {
+  const applySuggestion = (suggestion: string) => {
     setUrl(suggestion)
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
@@ -142,6 +202,14 @@ const EnhancedUrlSnapper = () => {
   const urlCount = url.split("\n").filter((u) => u.trim()).length
   const isBulkMode = urlCount > 1
   const isProcessing = isPending
+
+  function isSnapResult(result: SnapResult | BulkSnapResult | null): result is SnapResult {
+    return !!result && typeof result === 'object' && 'data' in result && !('summary' in (result.data as BulkSnapResult['data']));
+  }
+
+  function isBulkSnapResult(result: SnapResult | BulkSnapResult | null): result is BulkSnapResult {
+    return !!result && typeof result === 'object' && 'data' in result && 'summary' in (result.data as object);
+  }
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -341,7 +409,7 @@ const EnhancedUrlSnapper = () => {
                       <div>
                         <p className="text-yellow-200 text-sm font-medium">URL Already Snapped</p>
                         <p className="text-yellow-300 text-xs mt-1">
-                          &quot;{urlCheckState.data.title}&quot; was snapped on {formatDate(urlCheckState.data.lastSnapped)}
+                          &quot;{urlCheckState.data.title ?? ''}&quot; was snapped on {urlCheckState.data?.lastSnapped ? formatDate(urlCheckState.data.lastSnapped) : ''}
                         </p>
                         <p className="text-yellow-400 text-xs mt-1">You can still re-snap to get updated content.</p>
                       </div>
@@ -396,7 +464,7 @@ const EnhancedUrlSnapper = () => {
             )}
 
             {/* Enhanced Success Display */}
-            {result?.success && !result.data?.summary && (
+            {isSnapResult(result) && result.success && (
               <div className="bg-green-500/10 backdrop-blur-sm border border-green-400/30 rounded-2xl p-6">
                 <div className="flex items-start space-x-4">
                   <CheckCircle className="w-6 h-6 text-green-400 mt-0.5 flex-shrink-0" />
@@ -450,7 +518,7 @@ const EnhancedUrlSnapper = () => {
             )}
 
             {/* Enhanced Bulk Results */}
-            {result?.success && result.data?.summary && (
+            {isBulkSnapResult(result) && result.success && result.data.summary && (
               <div className="space-y-6">
                 <div className="bg-green-500/10 backdrop-blur-sm border border-green-400/30 rounded-2xl p-6">
                   <h3 className="font-medium text-green-300 flex items-center space-x-3 mb-6">
@@ -597,7 +665,7 @@ const EnhancedUrlSnapper = () => {
         </div>
 
         {/* Top Domains Stats */}
-        {stats && stats.topDomains.length > 0 && (
+        {stats && Array.isArray(stats.topDomains) && stats.topDomains.length > 0 && (
           <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500">
             <h3 className="font-semibold text-white mb-6 flex items-center space-x-3">
               <BarChart3 className="w-6 h-6 text-purple-400" />

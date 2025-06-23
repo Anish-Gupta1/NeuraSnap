@@ -74,7 +74,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         
         {/* Main content area */}
         <div className="relative flex h-full flex-col">
-          <CopilotKitProvider publicApiKey={process.env.COPILOT_API_KEY}>
+          <CopilotKitProvider publicApiKey={process.env.COPILOT_API_KEY!}>
             <Header />
             <main>
               {children}  
