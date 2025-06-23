@@ -1,13 +1,21 @@
-"use client"
+"use client";
 export const dynamic = "force-dynamic";
-import { useState, useEffect } from "react"
-import { AuthForm } from "../../components/auth/AuthForm"
-import { Zap, Globe, Search, Download, Sparkles, Brain, CheckCircle } from "lucide-react"
+import { useState, useEffect } from "react";
+import { AuthForm } from "../../components/auth/AuthForm";
+import {
+  Zap,
+  Sparkles,
+  Brain,
+  CheckCircle,
+  Eye,
+  Database,
+  MessageSquare,
+} from "lucide-react";
 
 export default function AuthPage() {
-  const [mode, setMode] = useState<"signin" | "signup">("signin")
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [isClient, setIsClient] = useState(false)
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isClient, setIsClient] = useState(false);
 
   // Fixed particle positions to avoid hydration mismatch
   const particlePositions = [
@@ -25,23 +33,23 @@ export default function AuthPage() {
     { left: 43, top: 12, delay: 2.3, duration: 3.9 },
     { left: 78, top: 67, delay: 1.1, duration: 4.6 },
     { left: 25, top: 56, delay: 0.6, duration: 3.4 },
-    { left: 85, top: 89, delay: 2.0, duration: 4.3 }
-  ]
+    { left: 85, top: 89, delay: 2.0, duration: 4.3 },
+  ];
 
   useEffect(() => {
-    setIsClient(true)
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
+    setIsClient(true);
 
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   const toggleMode = () => {
-    setMode(mode === "signin" ? "signup" : "signin")
-  }
+    setMode(mode === "signin" ? "signup" : "signin");
+  };
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden pt-16">
@@ -53,18 +61,19 @@ export default function AuthPage() {
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
 
         {/* Floating Particles - Only render on client to avoid hydration issues */}
-        {isClient && particlePositions.map((particle, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-white/20 rounded-full animate-float"
-            style={{
-              left: `${particle.left}%`,
-              top: `${particle.top}%`,
-              animationDelay: `${particle.delay}s`,
-              animationDuration: `${particle.duration}s`,
-            }}
-          />
-        ))}
+        {isClient &&
+          particlePositions.map((particle, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white/20 rounded-full animate-float"
+              style={{
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                animationDelay: `${particle.delay}s`,
+                animationDuration: `${particle.duration}s`,
+              }}
+            />
+          ))}
 
         {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
@@ -107,8 +116,9 @@ export default function AuthPage() {
                 <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
               </div>
               <p className="text-xl text-gray-300 leading-relaxed">
-                Transform any webpage into a comprehensive FAQ collection with AI-powered extraction and intelligent
-                organization.
+                Snap any webpage, get AI-powered summaries, intelligent
+                bookmarking, and chat with your saved content using advanced AI
+                technology.
               </p>
             </div>
 
@@ -116,26 +126,26 @@ export default function AuthPage() {
             <div className="space-y-8">
               {[
                 {
-                  icon: <Globe className="w-6 h-6" />,
-                  title: "Instant Web Scraping",
+                  icon: <Eye className="w-6 h-6" />,
+                  title: "Smart Web Snapping",
                   description:
-                    "Simply paste any URL and watch as our AI extracts relevant information and generates meaningful FAQs automatically.",
+                    "Instantly snap any webpage to capture and analyze its content. Each snap automatically creates a bookmark and generates an AI-powered summary using OpenAI technology.",
                   gradient: "from-blue-500 to-cyan-500",
                   bgGradient: "from-blue-500/10 to-cyan-500/10",
                 },
                 {
-                  icon: <Search className="w-6 h-6" />,
-                  title: "Smart Organization",
+                  icon: <Database className="w-6 h-6" />,
+                  title: "Intelligent Dashboard",
                   description:
-                    "Your FAQs are automatically categorized and made searchable, so you can find exactly what you need in seconds.",
+                    "Access all your snapped pages in one organized dashboard. View summaries, manage bookmarks, and quickly find the content you need.",
                   gradient: "from-purple-500 to-pink-500",
                   bgGradient: "from-purple-500/10 to-pink-500/10",
                 },
                 {
-                  icon: <Download className="w-6 h-6" />,
-                  title: "Export & Share",
+                  icon: <MessageSquare className="w-6 h-6" />,
+                  title: "AI Chat Integration",
                   description:
-                    "Export your FAQ collections as PDFs, share with your team, or integrate with your existing knowledge base.",
+                    "Ask questions about any saved page using CopilotKit AI. The chatbot accesses both your saved summaries and live webpage content via Tavily Extract API for comprehensive answers.",
                   gradient: "from-green-500 to-emerald-500",
                   bgGradient: "from-green-500/10 to-emerald-500/10",
                 },
@@ -171,13 +181,20 @@ export default function AuthPage() {
             {/* Use Cases */}
             <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500">
               <h4 className="font-semibold text-white mb-6 flex items-center space-x-3">
-                <Brain className="w-6 h-6 text-purple-400" />
+                <Zap className="w-6 h-6 text-purple-400" />
                 <span>Perfect for:</span>
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
                 <div className="space-y-4">
-                  {["Customer Support", "Product Documentation", "Training Materials"].map((item, idx) => (
-                    <div key={idx} className="flex items-center space-x-3 group">
+                  {[
+                    "Customer Support",
+                    "Product Documentation",
+                    "Training Materials",
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center space-x-3 group"
+                    >
                       <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
                       <span className="text-gray-300 group-hover:text-white transition-colors duration-300">
                         {item}
@@ -186,8 +203,59 @@ export default function AuthPage() {
                   ))}
                 </div>
                 <div className="space-y-4">
-                  {["Knowledge Management", "Content Research", "Competitive Analysis"].map((item, idx) => (
-                    <div key={idx} className="flex items-center space-x-3 group">
+                  {[
+                    "Knowledge Management",
+                    "Content Research",
+                    "Competitive Analysis",
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center space-x-3 group"
+                    >
+                      <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+                      <span className="text-gray-300 group-hover:text-white transition-colors duration-300">
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Use Cases */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500">
+              <h4 className="font-semibold text-white mb-6 flex items-center space-x-3">
+                <Brain className="w-6 h-6 text-purple-400" />
+                <span>How NeuraSnap Works:</span>
+              </h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                <div className="space-y-4">
+                  {[
+                    "Snap any webpage with one click",
+                    "AI analyzes and summarizes content",
+                    "Automatic bookmark creation",
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center space-x-3 group"
+                    >
+                      <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+                      <span className="text-gray-300 group-hover:text-white transition-colors duration-300">
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="space-y-4">
+                  {[
+                    "Access everything in your dashboard",
+                    "Chat with AI about saved content",
+                    "Get answers from live webpage data",
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center space-x-3 group"
+                    >
                       <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full group-hover:scale-125 transition-transform duration-300"></div>
                       <span className="text-gray-300 group-hover:text-white transition-colors duration-300">
                         {item}
@@ -214,11 +282,20 @@ export default function AuthPage() {
               </div>
             </div>
           </div>
+          
+          <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-30 animate-bounce">
+            <div className="flex flex-col items-center space-y-2 text-white/60 hover:text-white transition-colors duration-300">
+              <span className="text-sm font-medium">Scroll down</span>
+              <div className="w-6 h-6 border-2 border-white/40 rounded-full flex items-center justify-center">
+                <div className="w-1 h-3 bg-white/60 rounded-full animate-pulse"></div>
+              </div>
+            </div>
+          </div>
 
           {/* Right side - Empty space for fixed form */}
           <div className="hidden lg:block"></div>
         </div>
       </div>
     </div>
-  )
+  );
 }
