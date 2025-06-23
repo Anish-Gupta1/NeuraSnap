@@ -4,7 +4,21 @@ import { useState } from "react";
 import { Trash2, AlertTriangle, X, Loader2 } from "lucide-react";
 import { Client, Databases } from "appwrite";
 
-const DeleteBox = ({ page, isOpen, onClose, onDeleteSuccess }) => {
+type Page = {
+  $id: string;
+  title: string;
+  url: string;
+  $createdAt: string;
+};
+
+interface DeleteBoxProps {
+  page: Page;
+  isOpen: boolean;
+  onClose: () => void;
+  onDeleteSuccess: () => void;
+}
+
+const DeleteBox = ({ page, isOpen, onClose, onDeleteSuccess }: DeleteBoxProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmText, setConfirmText] = useState("");
   const [error, setError] = useState("");
@@ -42,7 +56,11 @@ const DeleteBox = ({ page, isOpen, onClose, onDeleteSuccess }) => {
       onClose();
     } catch (error) {
       console.error("Error deleting page:", error);
-      setError(error.message || "Failed to delete page. Please try again.");
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Failed to delete page. Please try again.");
+      }
     } finally {
       setIsDeleting(false);
     }
