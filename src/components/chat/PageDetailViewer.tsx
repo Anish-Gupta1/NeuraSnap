@@ -16,12 +16,30 @@ import {
 import PageChatInterface from "./PageChatInterface";
 import DeleteBox from "../DeleteBox";
 
-const PageDetailViewer = ({ page, onClose, onPageDeleted }) => {
+type Page = {
+  $id: string;
+  title: string;
+  url: string;
+  $createdAt: string;
+  $updatedAt: string;
+  description?: string;
+  content?: string;
+  metadata?: string;
+  extractedAt?: string;
+};
+
+interface PageDetailViewerProps {
+  page: Page;
+  onClose: () => void;
+  onPageDeleted: (id: string) => void;
+}
+
+const PageDetailViewer = ({ page, onClose, onPageDeleted }: PageDetailViewerProps) => {
   const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false);
 
   if (!page) return null;
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       weekday: "long",
@@ -44,7 +62,7 @@ const PageDetailViewer = ({ page, onClose, onPageDeleted }) => {
     onClose();
   };
 
-  const PageContent = ({ extractionStatus }) => (
+  const PageContent = ({ extractionStatus }: { extractionStatus: string }) => (
     <div className="w-full bg-white/5 backdrop-blur-sm border-l border-white/10 h-screen flex flex-col transition-all duration-300">
       {/* Header - Fixed */}
       <div className="flex-shrink-0 p-6 border-b border-white/10 bg-gradient-to-r from-blue-500/10 to-purple-500/10">
@@ -256,7 +274,7 @@ const PageDetailViewer = ({ page, onClose, onPageDeleted }) => {
                         </strong>
                         The AI assistant has access to the complete, up-to-date
                         content extracted from the live URL, enabling
-                        comprehensive analysis beyond what's shown here.
+                        comprehensive analysis beyond what&apos;s shown here.
                       </p>
                     </div>
                   )}
@@ -296,10 +314,10 @@ const PageDetailViewer = ({ page, onClose, onPageDeleted }) => {
                 </p>
                 <ul className="space-y-2 text-xs">
                   {[
-                    '"Summarize this page" - Comprehensive overview',
-                    '"What are the main topics?" - Key themes',
-                    '"Extract key insights" - Important points',
-                  ].map((tip, idx) => (
+                    '&quot;Summarize this page&quot; - Comprehensive overview',
+                    '&quot;What are the main topics?&quot; - Key themes',
+                    '&quot;Extract key insights&quot; - Important points',
+                  ].map((tip: string, idx: number) => (
                     <li key={idx} className="flex items-center space-x-2">
                       <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
                       <span>{tip}</span>
@@ -311,10 +329,10 @@ const PageDetailViewer = ({ page, onClose, onPageDeleted }) => {
                 <p className="font-medium mb-2 text-blue-300">Deep Search:</p>
                 <ul className="space-y-2 text-xs">
                   {[
-                    '"Find information about [topic]" - Specific search',
-                    '"Explain [concept] from this page" - Detailed explanations',
-                    '"What does this page say about [query]?" - Targeted Q&A',
-                  ].map((tip, idx) => (
+                    '&quot;Find information about [topic]&quot; - Specific search',
+                    '&quot;Explain [concept] from this page&quot; - Detailed explanations',
+                    '&quot;What does this page say about [query]?&quot; - Targeted Q&amp;A',
+                  ].map((tip: string, idx: number) => (
                     <li key={idx} className="flex items-center space-x-2">
                       <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
                       <span>{tip}</span>
@@ -362,7 +380,7 @@ const PageDetailViewer = ({ page, onClose, onPageDeleted }) => {
   return (
     <>
       <PageChatInterface page={page}>
-        {({ extractionStatus }) => (
+        {({ extractionStatus }: { extractionStatus: string }) => (
           <PageContent extractionStatus={extractionStatus} />
         )}
       </PageChatInterface>

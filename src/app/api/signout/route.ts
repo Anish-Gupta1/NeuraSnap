@@ -1,12 +1,8 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { Client, Account } from 'node-appwrite';
 
 export async function POST() {
   try {
-    const cookieStore = cookies();
-    const sessionCookie = (await cookieStore).get('appwrite-session'); // or your custom cookie name
-
     const client = new Client()
       .setEndpoint(process.env.APPWRITE_ENDPOINT!)
       .setProject(process.env.APPWRITE_PROJECT_ID!)

@@ -5,10 +5,18 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { getLoggedInUser } from "@/lib/server/appwrite"
 
+type User = {
+  $id: string;
+  name: string;
+  email: string;
+  $createdAt: string;
+  $updatedAt: string;
+};
+
 export default function HomePage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isClient, setIsClient] = useState(false)
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<User | null>(null)
   const [isCheckingAuth, setIsCheckingAuth] = useState(true)
   const router = useRouter()
 
@@ -311,17 +319,17 @@ export default function HomePage() {
           <div className="space-y-4">
             <ServiceStatus
               service="OpenAI API"
-              status={checkEnvironmentVariable("OPENAI_API_KEY")}
+              status={checkEnvironmentVariable()}
               description="AI-powered content summarization and analysis"
             />
             <ServiceStatus
               service="Tavily API"
-              status={checkEnvironmentVariable("TAVILY_API_KEY")}
+              status={checkEnvironmentVariable()}
               description="Intelligent web extraction and question answering"
             />
             <ServiceStatus
               service="Appwrite Database"
-              status={checkEnvironmentVariable("NEXT_PUBLIC_APPWRITE_PROJECT_ID")}
+              status={checkEnvironmentVariable()}
               description="Secure user authentication and data storage"
             />
             <ServiceStatus
@@ -413,7 +421,7 @@ function ServiceStatus({
   )
 }
 
-function checkEnvironmentVariable(varName: string): boolean {
+function checkEnvironmentVariable(): boolean {
   // Return true for demonstration purposes
   // In a real app, you'd check process.env[varName] on the server
   return true
