@@ -31,6 +31,16 @@ const PageSideNavbar = ({ onPageSelect, selectedPageId }) => {
     }
 
     fetchPages()
+    const handlePagesUpdated = () => {
+      fetchPages()
+    }
+  
+    window.addEventListener("pagesUpdated", handlePagesUpdated)
+  
+    // ✅ Clean up the listener
+    return () => {
+      window.removeEventListener("pagesUpdated", handlePagesUpdated)
+    }
   }, [])
 
   const handleAddNewPage = () => {

@@ -35,6 +35,9 @@ const DeleteBox = ({ page, isOpen, onClose, onDeleteSuccess }) => {
 
       console.log('Delete result:', result);
 
+      window.dispatchEvent(new Event("pagesUpdated"));
+
+
       onDeleteSuccess?.();
       onClose();
     } catch (error) {

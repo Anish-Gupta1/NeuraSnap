@@ -45,9 +45,9 @@ const PageDetailViewer = ({ page, onClose, onPageDeleted }) => {
   };
 
   const PageContent = ({ extractionStatus }) => (
-    <div className="w-full bg-white/5 backdrop-blur-sm border-l border-white/10 h-full flex flex-col transition-all duration-300">
-      {/* Header */}
-      <div className="p-6 border-b border-white/10 bg-gradient-to-r from-blue-500/10 to-purple-500/10">
+    <div className="w-full bg-white/5 backdrop-blur-sm border-l border-white/10 h-screen flex flex-col transition-all duration-300">
+      {/* Header - Fixed */}
+      <div className="flex-shrink-0 p-6 border-b border-white/10 bg-gradient-to-r from-blue-500/10 to-purple-500/10">
         <div className="flex items-start justify-between mb-6">
           <div className="flex-1 min-w-0">
             <h1 className="text-3xl font-bold text-white mb-4 leading-tight hover:scale-105 transition-transform duration-300 cursor-default">
@@ -88,8 +88,8 @@ const PageDetailViewer = ({ page, onClose, onPageDeleted }) => {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto">
+      {/* Scrollable Content */}
+      <div className="flex-1 overflow-y-auto min-h-0">
         <div className="p-8">
           <div className="p-6 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 backdrop-blur-sm border border-blue-400/30 rounded-2xl">
             <div className="flex items-start space-x-4">
