@@ -44,14 +44,14 @@ export const metadata: Metadata = {
     shortcut: '/favicon-16x16.png',
     apple: '/apple-touch-icon.png',
   },
+};
   
   // Viewport configuration for responsive design
-  viewport: {
+  export const viewport= {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
-  },
-};
+  };
 
 interface RootLayoutProps {
   children: React.ReactNode;

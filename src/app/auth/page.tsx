@@ -1,5 +1,5 @@
 "use client"
-
+export const dynamic = "force-dynamic";
 import { useState, useEffect } from "react"
 import { AuthForm } from "../../components/auth/AuthForm"
 import { Zap, Globe, Search, Download, Sparkles, Brain, CheckCircle } from "lucide-react"

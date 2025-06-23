@@ -1,4 +1,5 @@
 // src/app/account/page.tsx
+export const dynamic = "force-dynamic";
 import { getLoggedInUser, createSessionClient } from '@/lib/server/appwrite';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
