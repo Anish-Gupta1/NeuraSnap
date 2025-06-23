@@ -341,7 +341,7 @@ const EnhancedUrlSnapper = () => {
                       <div>
                         <p className="text-yellow-200 text-sm font-medium">URL Already Snapped</p>
                         <p className="text-yellow-300 text-xs mt-1">
-                          "{urlCheckState.data.title}" was snapped on {formatDate(urlCheckState.data.lastSnapped)}
+                          &quot;{urlCheckState.data.title}&quot; was snapped on {formatDate(urlCheckState.data.lastSnapped)}
                         </p>
                         <p className="text-yellow-400 text-xs mt-1">You can still re-snap to get updated content.</p>
                       </div>

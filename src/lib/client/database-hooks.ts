@@ -1,7 +1,7 @@
 // lib/client/database-hooks.ts
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { DatabaseService, PageDocument, FAQDocument } from '@/lib/server/database-service';
 
 // Simplified hooks for client-side database operations
@@ -77,7 +77,7 @@ export function usePage(pageId: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchPage = async () => {
+  const fetchPage = useCallback(async () => {
     if (!pageId) return;
     
     try {
@@ -90,11 +90,11 @@ export function usePage(pageId: string) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [pageId]);
 
   useEffect(() => {
     fetchPage();
-  }, [pageId]);
+  }, [fetchPage]);
 
   return {
     page,
@@ -109,7 +109,7 @@ export function useFAQs(pageId: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchFAQs = async () => {
+  const fetchFAQs = useCallback(async () => {
     if (!pageId) return;
     
     try {
@@ -122,7 +122,7 @@ export function useFAQs(pageId: string) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [pageId]);
 
   const createFAQ = async (question: string, answer: string) => {
     try {
@@ -160,7 +160,7 @@ export function useFAQs(pageId: string) {
 
   useEffect(() => {
     fetchFAQs();
-  }, [pageId]);
+  }, [fetchFAQs]);
 
   return {
     faqs,

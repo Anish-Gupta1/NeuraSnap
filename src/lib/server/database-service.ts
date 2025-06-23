@@ -38,10 +38,17 @@ export interface FAQDocument {
   answer: string;
 }
 
+interface PageMetadata {
+  domain?: string;
+  contentLength?: number;
+  lastSnapped?: string;
+  [key: string]: unknown;
+}
+
 interface PageData {
   content?: string;
   description?: string;
-  metadata?: any;
+  metadata?: PageMetadata;
   extractedAt?: string;
 }
 
@@ -104,7 +111,7 @@ export class DatabaseService {
       const databases = await createDatabasesClient();
       
       // Prepare data with content truncation
-      const documentData: any = {
+      const documentData: Partial<PageDocument> = {
         userId: user.$id,
         title,
         url,
