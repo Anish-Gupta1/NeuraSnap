@@ -1,7 +1,7 @@
 "use client";
 
 import { useCopilotReadable, useCopilotAction } from "@copilotkit/react-core";
-import { CopilotKitCSSProperties, CopilotSidebar, HeaderProps, useChatContext, WindowProps } from "@copilotkit/react-ui";
+import {  CopilotSidebar, HeaderProps, useChatContext } from "@copilotkit/react-ui";
 import { useState, useEffect } from "react";
 
 
@@ -305,11 +305,6 @@ const PageChatInterface = ({ page, children }) => {
   
 
   return (
-    <div style={
-      {
-        "--copilot-kit-primary-color": "#000000",
-      } as CopilotKitCSSProperties
-    }>
       <CopilotSidebar
         Header={Header}
         defaultOpen={false}
@@ -383,7 +378,6 @@ const PageChatInterface = ({ page, children }) => {
           ? children({ extractionStatus: getExtractionStatus() })
           : children}
       </CopilotSidebar >
-    </div>
   );
 };
 

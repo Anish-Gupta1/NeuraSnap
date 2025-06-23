@@ -179,8 +179,7 @@ const EnhancedUrlSnapper = () => {
             <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
           </div>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Transform any webpage into intelligent, searchable content with AI-powered extraction and instant FAQ
-            generation.
+            Transform any webpage into intelligent, searchable content with AI-powered extraction.
           </p>
         </div>
 
@@ -283,13 +282,13 @@ const EnhancedUrlSnapper = () => {
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-3">
-                  URL or URLs (one per line for bulk processing)
+                  URL 
                 </label>
                 <div className="relative">
                   <textarea
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
-                    placeholder="https://example.com/article&#10;https://another-site.com/blog&#10;https://docs.example.com/guide"
+                    placeholder="https://example.com/article"
                     className={`w-full px-6 py-4 bg-white/5 backdrop-blur-sm border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all duration-300 text-white placeholder-gray-400 ${
                       !validationState.isValid && url.trim()
                         ? "border-red-400/50 bg-red-500/10"
@@ -594,25 +593,7 @@ const EnhancedUrlSnapper = () => {
             </div>
           </div>
 
-          <div className="mt-8 p-6 bg-blue-500/10 backdrop-blur-sm border border-blue-400/30 rounded-2xl">
-            <h4 className="font-medium text-blue-300 mb-4 flex items-center space-x-2">
-              <Zap className="w-5 h-5" />
-              <span>Bulk Processing Tips</span>
-            </h4>
-            <ul className="space-y-2 text-sm text-blue-200">
-              {[
-                "Maximum 10 URLs per batch to prevent timeouts",
-                "Add delays between requests to respect rate limits",
-                "Group similar domains together for better success rates",
-                "Check individual URL validity before bulk processing",
-              ].map((tip, idx) => (
-                <li key={idx} className="flex items-center space-x-2">
-                  <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-                  <span>{tip}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          
         </div>
 
         {/* Top Domains Stats */}
