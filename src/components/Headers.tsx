@@ -1,10 +1,19 @@
-import Link from "next/link"
-import { getLoggedInUser } from "@/lib/server/appwrite"
-import { signOut } from "@/lib/server/actions/signOut"
-import { Home, LogIn, LogOut, Sparkles, LayoutDashboard, Camera, Scissors } from "lucide-react"
+import Link from "next/link";
+import { getLoggedInUser } from "@/lib/server/appwrite";
+import { signOut } from "@/lib/server/actions/signOut";
+import {
+  Home,
+  LogIn,
+  LogOut,
+  Sparkles,
+  LayoutDashboard,
+  Camera,
+  Scissors,
+  BookOpen,
+} from "lucide-react";
 
 export default async function Header() {
-  const user = await getLoggedInUser()
+  const user = await getLoggedInUser();
 
   return (
     <header className="fixed top-0 w-full px-6 py-4 z-50 transition-all duration-500 ease-out animate-slideDown">
@@ -40,7 +49,7 @@ export default async function Header() {
             >
               {/* Shimmer Effect */}
               <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
-              
+
               <LayoutDashboard className="w-4 h-4 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
               <span className="relative z-10 font-medium">Dashboard</span>
             </Link>
@@ -66,7 +75,7 @@ export default async function Header() {
             >
               {/* Shimmer Effect */}
               <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
-              
+
               <Scissors className="w-4 h-4 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
               <span className="relative z-10 font-medium">Snap</span>
             </Link>
@@ -83,6 +92,16 @@ export default async function Header() {
               </div>
             </div>
           )}
+          <Link
+            href="/guide"
+            className="group relative bg-gradient-to-r from-orange-500/20 to-amber-500/20 backdrop-blur-sm border border-orange-500/30 text-white px-5 py-2.5 rounded-lg hover:from-orange-500/30 hover:to-amber-500/30 hover:border-orange-400/50 transition-all duration-300 flex items-center space-x-2 hover:scale-105 hover:shadow-lg hover:shadow-orange-500/25 overflow-hidden"
+          >
+            {/* Shimmer Effect */}
+            <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></div>
+
+            <BookOpen className="w-4 h-4 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+            <span className="relative z-10 font-medium">Guide</span>
+          </Link>
         </div>
 
         {/* Right - Auth buttons */}
@@ -122,5 +141,5 @@ export default async function Header() {
         )}
       </div>
     </header>
-  )
+  );
 }
