@@ -39,18 +39,17 @@ export async function getLoggedInUser() {
   try {
     const { account } = await createSessionClient();
     const user = await account.get();
-    
-    // Return a plain object instead of the Appwrite user object
     return {
       $id: user.$id,
       name: user.name,
       email: user.email,
       $createdAt: user.$createdAt,
       $updatedAt: user.$updatedAt,
-      // Add any other properties you need, but keep them as plain values
     };
   } catch (error) {
-    console.error("Error getting logged in user:", error);
+    if (error instanceof Error && error.message !== "No session") {
+      console.error("Error getting logged in user:", error);
+    }
     return null;
   }
 }
