@@ -4,11 +4,27 @@ import { useCopilotReadable, useCopilotAction } from "@copilotkit/react-core";
 import {  CopilotSidebar, HeaderProps, useChatContext } from "@copilotkit/react-ui";
 import { useState, useEffect } from "react";
 
+type Page = {
+  $id: string;
+  title: string;
+  url: string;
+  $createdAt: string;
+  $updatedAt: string;
+  description?: string;
+  content?: string;
+  metadata?: string;
+  extractedAt?: string;
+};
 
-const PageChatInterface = ({ page, children }) => {
-  const [fullContent, setFullContent] = useState(null);
+interface PageChatInterfaceProps {
+  page: Page;
+  children: React.ReactNode;
+}
+
+const PageChatInterface = ({ page, children }: PageChatInterfaceProps) => {
+  const [fullContent, setFullContent] = useState<string | null>(null);
   const [isExtracting, setIsExtracting] = useState(false);
-  const [extractionError, setExtractionError] = useState(null);
+  const [extractionError, setExtractionError] = useState<string | null>(null);
 
   // Extract full content using Tavily when component mounts
   useEffect(() => {
@@ -35,7 +51,11 @@ const PageChatInterface = ({ page, children }) => {
         setFullContent(data.result?.raw_content || null);
       } catch (error) {
         console.error("Error extracting full content:", error);
-        setExtractionError(error.message);
+        if (error instanceof Error) {
+          setExtractionError(error.message);
+        } else {
+          setExtractionError("Failed to extract content.");
+        }
       } finally {
         setIsExtracting(false);
       }
@@ -121,14 +141,14 @@ const PageChatInterface = ({ page, children }) => {
             .toLowerCase()
             .replace(/[^\w\s]/g, " ")
             .split(/\s+/)
-            .filter((word) => word.length > 3)
-            .reduce((acc, word) => {
+            .filter((word: string) => word.length > 3)
+            .reduce<Record<string, number>>((acc, word: string) => {
               acc[word] = (acc[word] || 0) + 1;
               return acc;
             }, {});
 
           const topKeywords = Object.entries(words)
-            .sort(([, a], [, b]) => b - a)
+            .sort(([, a], [, b]: [string, number]) => (b as number) - (a as number))
             .slice(0, 15)
             .map(([word]) => word);
 
@@ -170,13 +190,13 @@ const PageChatInterface = ({ page, children }) => {
           }
           const lines = contentToAnalyze
             .split("\n")
-            .filter((line) => line.trim());
+            .filter((line: string) => line.trim());
           const paragraphs = contentToAnalyze
             .split("\n\n")
-            .filter((p) => p.trim());
+            .filter((p: string) => p.trim());
           return `Content structure (${contentSource}): ${
-            lines.length
-          } lines, ${paragraphs.length} paragraphs. ${
+            (lines as string[]).length
+          } lines, ${(paragraphs as string[]).length} paragraphs. ${
             fullContent
               ? "Full page structure analyzed including all elements."
               : "Structure based on stored content only."
@@ -253,8 +273,14 @@ const PageChatInterface = ({ page, children }) => {
           data.result?.raw_content?.length || 0
         } characters.`;
       } catch (error) {
-        setExtractionError(error.message);
-        return `Failed to refresh content: ${error.message}`;
+        console.error("Error extracting full content:", error);
+        if (error instanceof Error) {
+          setExtractionError(error.message);
+          return `Failed to refresh content: ${error.message}`;
+        } else {
+          setExtractionError("Failed to extract content.");
+          return "Failed to refresh content: Unknown error";
+        }
       } finally {
         setIsExtracting(false);
       }
@@ -375,7 +401,7 @@ const PageChatInterface = ({ page, children }) => {
         className="copilot-sidebar-custom"
       >
         {typeof children === "function"
-          ? children({ extractionStatus: getExtractionStatus() })
+          ? (children as (props: { extractionStatus: string }) => React.ReactNode)({ extractionStatus: getExtractionStatus() })
           : children}
       </CopilotSidebar >
   );
