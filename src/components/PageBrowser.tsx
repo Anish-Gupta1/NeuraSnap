@@ -17,10 +17,12 @@ const PageBrowser = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <PageSideNavbar 
-        onPageSelect={handlePageSelect}
-        selectedPageId={selectedPage?.$id}
-      />
+      <div className="fix">
+        <PageSideNavbar 
+          onPageSelect={handlePageSelect}
+          selectedPageId={selectedPage?.$id}
+        />
+      </div>
       
       {selectedPage ? (
         <PageDetailViewer

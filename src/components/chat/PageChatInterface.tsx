@@ -1,11 +1,8 @@
 import { useCopilotReadable, useCopilotAction } from "@copilotkit/react-core";
-import { CopilotChat } from "@copilotkit/react-ui";
-import { useState } from "react";
-import { MessageCircle, X, Bot } from "lucide-react";
+import { CopilotSidebar } from "@copilotkit/react-ui";
+// import { useState, useEffect } from "react";
 
-const PageChatInterface = ({ page }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
+const PageChatInterface = ({ page, children }) => {
   // Make the page data readable by CopilotKit
   useCopilotReadable({
     description: `Current page being viewed: ${page?.title}`,
@@ -79,50 +76,23 @@ const PageChatInterface = ({ page }) => {
     }
   });
 
-  if (!isExpanded) {
-    return (
-      <div className="fixed bottom-6 right-6 z-50">
-        <button
-          onClick={() => setIsExpanded(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-all duration-200 hover:scale-110 group"
-          aria-label="Open AI Assistant"
-        >
-          <MessageCircle className="w-6 h-6 group-hover:animate-pulse" />
-        </button>
-      </div>
-    );
-  }
+  useCopilotAction({
+    name: "openPageUrl",
+    description: "Open the original URL of the current page in a new tab",
+    parameters: [],
+    handler: async () => {
+      if (page?.url) {
+        window.open(page.url, "_blank", "noopener,noreferrer");
+        return `Opened ${page.url} in a new tab`;
+      }
+      return "No URL available for this page";
+    }
+  });
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-96 h-[600px] bg-white border border-gray-200 rounded-lg shadow-2xl flex flex-col overflow-hidden">
-      {/* Header */}
-      <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-lg">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Bot className="w-5 h-5 text-blue-600" />
-            <div>
-              <h3 className="font-semibold text-gray-800">AI Page Assistant</h3>
-              <p className="text-xs text-gray-600">Powered by CopilotKit</p>
-            </div>
-          </div>
-          <button
-            onClick={() => setIsExpanded(false)}
-            className="text-gray-500 hover:text-gray-700 p-1 rounded-lg hover:bg-white/50 transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="mt-2 p-2 bg-white/50 rounded-md">
-          <p className="text-xs text-gray-700 truncate" title={page?.title}>
-            📄 {page?.title}
-          </p>
-        </div>
-      </div>
-
-      {/* CopilotKit Chat Interface */}
-      <div className="flex-1 overflow-hidden">
-        <CopilotChat
-          instructions={`You are an intelligent assistant helping users understand and analyze web page content. 
+    <CopilotSidebar
+      defaultOpen={false}
+      instructions={`You are an intelligent AI assistant specialized in helping users understand and analyze web page content. 
 
 Current page context:
 - Title: ${page?.title || "No title"}
@@ -130,23 +100,26 @@ Current page context:
 - URL: ${page?.url || "No URL"}
 - Has Content: ${page?.content ? "Yes" : "No"}
 - Created: ${page?.$createdAt ? new Date(page.$createdAt).toLocaleDateString() : "Unknown"}
+- Content Length: ${page?.content ? `${page.content.length} characters` : "No content"}
 
-You can help users by:
-1. Summarizing the page content
-2. Answering questions about specific information
-3. Explaining complex topics from the page
-4. Providing insights and analysis
-5. Extracting key information and themes
+Your capabilities:
+1. **Content Analysis**: Summarize, extract keywords, identify topics, and provide insights
+2. **Question Answering**: Answer specific questions about the page content
+3. **Information Extraction**: Help find specific information within the page
+4. **Contextual Understanding**: Explain complex topics and concepts from the page
+5. **Page Navigation**: Help users understand page structure and metadata
 
-Be helpful, accurate, and reference the specific page content when possible. If asked about information not available in the page data, clearly state that limitation.`}
-          labels={{
-            title: "Page Assistant",
-            initial: `Hi! I'm your AI assistant for analyzing "${page?.title}". I can help you understand the content, answer questions, and provide insights. What would you like to know?`,
-          }}
-          className="h-full"
-        />
-      </div>
-    </div>
+Always be helpful, accurate, and reference the specific page content when possible. If information isn't available in the page data, clearly state that limitation and suggest alternatives.
+
+Use the available actions like analyzePageContent() and getPageMetadata() to provide comprehensive assistance.`}
+      labels={{
+        title: "Page AI Assistant",
+        initial: `Hi! I'm your AI assistant for "${page?.title || 'this page'}". I can help you understand the content, answer questions, perform analysis, and provide insights. What would you like to explore?`,
+      }}
+      className="copilot-sidebar-custom"
+    >
+      {children}
+    </CopilotSidebar>
   );
 };
 
