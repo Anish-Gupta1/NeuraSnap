@@ -2,8 +2,26 @@
 
 import { Calendar, ExternalLink, Sparkles } from "lucide-react"
 
-const PageCard = ({ page, isSelected, onClick }) => {
-  const formatDate = (dateString) => {
+type Page = {
+  $id: string;
+  title: string;
+  url: string;
+  $createdAt: string;
+  $updatedAt: string;
+  description?: string;
+  content?: string;
+  metadata?: string;
+  extractedAt?: string;
+};
+
+interface PageCardProps {
+  page: Page;
+  isSelected: boolean;
+  onClick: () => void;
+}
+
+const PageCard = ({ page, isSelected, onClick }: PageCardProps) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString("en-US", {
       month: "short",
@@ -12,7 +30,7 @@ const PageCard = ({ page, isSelected, onClick }) => {
     })
   }
 
-  const truncateText = (text, maxLength = 60) => {
+  const truncateText = (text: string, maxLength = 60) => {
     if (!text || text.length <= maxLength) return text
     return text.substring(0, maxLength) + "..."
   }

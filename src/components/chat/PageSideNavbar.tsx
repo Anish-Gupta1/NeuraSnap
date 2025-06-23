@@ -5,8 +5,25 @@ import { FileText, Loader2, AlertCircle, Plus, Sparkles } from "lucide-react"
 import { useRouter } from "next/navigation"
 import PageCard from "./PageCard"
 
-const PageSideNavbar = ({ onPageSelect, selectedPageId }) => {
-  const [pages, setPages] = useState([])
+type Page = {
+  $id: string;
+  title: string;
+  url: string;
+  $createdAt: string;
+  $updatedAt: string;
+  description?: string;
+  content?: string;
+  metadata?: string;
+  extractedAt?: string;
+};
+
+interface PageSideNavbarProps {
+  onPageSelect: (page: Page) => void;
+  selectedPageId?: string;
+}
+
+const PageSideNavbar = ({ onPageSelect, selectedPageId }: PageSideNavbarProps) => {
+  const [pages, setPages] = useState<Page[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const router = useRouter()
@@ -24,7 +41,11 @@ const PageSideNavbar = ({ onPageSelect, selectedPageId }) => {
         setError("")
       } catch (err) {
         console.error("Error loading pages:", err)
-        setError(err.message)
+        if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError("Failed to load pages.")
+        }
       } finally {
         setLoading(false)
       }

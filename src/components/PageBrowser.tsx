@@ -5,10 +5,22 @@ import { FileText, Sparkles } from "lucide-react"
 import PageSideNavbar from "./chat/PageSideNavbar"
 import PageDetailViewer from "./chat/PageDetailViewer"
 
-const PageBrowser = () => {
-  const [selectedPage, setSelectedPage] = useState(null)
+type Page = {
+  $id: string;
+  title: string;
+  url: string;
+  $createdAt: string;
+  $updatedAt: string;
+  description?: string;
+  content?: string;
+  metadata?: string;
+  extractedAt?: string;
+};
 
-  const handlePageSelect = (page) => {
+const PageBrowser = () => {
+  const [selectedPage, setSelectedPage] = useState<Page | null>(null)
+
+  const handlePageSelect = (page: Page) => {
     setSelectedPage(page)
   }
 
@@ -35,7 +47,11 @@ const PageBrowser = () => {
         </div>
 
         {selectedPage ? (
-          <PageDetailViewer page={selectedPage} onClose={handleCloseDetail} />
+          <PageDetailViewer
+            page={selectedPage}
+            onClose={handleCloseDetail}
+            onPageDeleted={handleCloseDetail}
+          />
         ) : (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
