@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Calendar,
   ExternalLink,
@@ -10,10 +11,14 @@ import {
   AlertCircle,
   Sparkles,
   Brain,
+  Trash2,
 } from "lucide-react";
 import PageChatInterface from "./PageChatInterface";
+import DeleteBox from "../DeleteBox";
 
-const PageDetailViewer = ({ page, onClose }) => {
+const PageDetailViewer = ({ page, onClose, onPageDeleted }) => {
+  const [isDeleteBoxOpen, setIsDeleteBoxOpen] = useState(false);
+
   if (!page) return null;
 
   const formatDate = (dateString) => {
@@ -30,6 +35,13 @@ const PageDetailViewer = ({ page, onClose }) => {
 
   const handleUrlClick = () => {
     window.open(page.url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleDeleteSuccess = () => {
+    // Call the parent's callback to handle the page deletion
+    onPageDeleted?.(page.$id);
+    // Close the detail viewer
+    onClose();
   };
 
   const PageContent = ({ extractionStatus }) => (
@@ -52,13 +64,27 @@ const PageDetailViewer = ({ page, onClose }) => {
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="ml-6 p-3 hover:bg-white/10 rounded-xl transition-all duration-300 flex-shrink-0 hover:scale-110 group"
-            aria-label="Close"
-          >
-            <X className="w-6 h-6 text-gray-400 group-hover:text-white group-hover:rotate-90 transition-all duration-300" />
-          </button>
+          {/* Action Buttons */}
+          <div className="flex items-center space-x-3 ml-6">
+            {/* Delete Button */}
+            <button
+              onClick={() => setIsDeleteBoxOpen(true)}
+              className="group p-3 hover:bg-red-500/10 border border-red-500/20 hover:border-red-500/40 rounded-xl transition-all duration-300 flex-shrink-0 hover:scale-110"
+              aria-label="Delete Page"
+              title="Delete Page"
+            >
+              <Trash2 className="w-5 h-5 text-red-400 group-hover:text-red-300 group-hover:rotate-12 transition-all duration-300" />
+            </button>
+
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="group p-3 hover:bg-white/10 rounded-xl transition-all duration-300 flex-shrink-0 hover:scale-110"
+              aria-label="Close"
+            >
+              <X className="w-6 h-6 text-gray-400 group-hover:text-white group-hover:rotate-90 transition-all duration-300" />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -334,11 +360,21 @@ const PageDetailViewer = ({ page, onClose }) => {
   );
 
   return (
-    <PageChatInterface page={page}>
-      {({ extractionStatus }) => (
-        <PageContent extractionStatus={extractionStatus} />
-      )}
-    </PageChatInterface>
+    <>
+      <PageChatInterface page={page}>
+        {({ extractionStatus }) => (
+          <PageContent extractionStatus={extractionStatus} />
+        )}
+      </PageChatInterface>
+
+      {/* Delete Confirmation Modal */}
+      <DeleteBox
+        page={page}
+        isOpen={isDeleteBoxOpen}
+        onClose={() => setIsDeleteBoxOpen(false)}
+        onDeleteSuccess={handleDeleteSuccess}
+      />
+    </>
   );
 };
 
