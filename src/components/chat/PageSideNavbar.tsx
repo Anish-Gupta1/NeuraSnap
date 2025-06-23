@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FileText, Loader2, AlertCircle } from 'lucide-react';
+import { FileText, Loader2, AlertCircle, Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import PageCard from './PageCard';
 
 const PageSideNavbar = ({ onPageSelect, selectedPageId }) => {
   const [pages, setPages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchPages() {
@@ -30,6 +32,10 @@ const PageSideNavbar = ({ onPageSelect, selectedPageId }) => {
 
     fetchPages();
   }, []);
+
+  const handleAddNewPage = () => {
+    router.push('/snap');
+  };
 
   if (loading) {
     return (
@@ -57,8 +63,17 @@ const PageSideNavbar = ({ onPageSelect, selectedPageId }) => {
     <div className="w-80 bg-white border-r border-gray-200 h-full overflow-hidden flex flex-col">
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-800">Your Pages</h2>
-        <p className="text-sm text-gray-500 mt-1">{pages.length} pages saved</p>
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-lg font-semibold text-gray-800">Your Pages</h2>
+          <button
+            onClick={handleAddNewPage}
+            className="flex items-center gap-1 px-3 py-1.5 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            New Page
+          </button>
+        </div>
+        <p className="text-sm text-gray-500">{pages.length} pages saved</p>
       </div>
 
       {/* Pages List */}
@@ -89,8 +104,3 @@ const PageSideNavbar = ({ onPageSelect, selectedPageId }) => {
 };
 
 export default PageSideNavbar;
-
-
-
-
-
